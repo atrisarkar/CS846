@@ -1,12 +1,15 @@
 // ==UserScript==
-// @name        CS846
+// @name        Test
 // @namespace   http://github.com/elasticsearch/elasticsearch/pull
-// @include     https://github.com/elasticsearch/elasticsearch/pull/*
+// @include     https://github.com/*
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
 // @version     1
 // @grant       GM_xmlhttpRequest
 // ==/UserScript==
 $(document).ready(showAlert);
+
+
+
 
 
 
@@ -35,7 +38,8 @@ function showAlert() {
   
   GM_xmlhttpRequest({
   method: "GET",
-  url: "http://httpbin.org/get",
+  headers: {"Accept": "application/json"},
+  url: "http://localhost:8080/CS846_Web/rest/relatedfile",
   onload: function(response) {
     updateData(response);
   }
@@ -44,9 +48,15 @@ function showAlert() {
 }
 
 function updateData(response) {
-  alert("coming");
+  //alert($().jquery);
+  var json_response = response.responseText;
+  var response_object = JSON.parse(json_response);
+  
   var warning_label = document.getElementById("warning_label");
   warning_label.innerHTML = "You might want to review the following files for potential impact";
   warning_label.style = "background-color:#e8f0f8";
   document.getElementById("toc_related_files").setAttribute("class","details-collapse table-of-contents js-details-container open");
+  
+  $("#file_list > li").children("a").text(response_object.filename);
+ 
 }
