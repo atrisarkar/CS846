@@ -17,9 +17,20 @@
   		<version>4.3.6</version>
   	</dependency>
   	<dependency>
+		<groupId>commons-collections</groupId>
+		<artifactId>commons-collections</artifactId>
+		<version>3.2.1</version>
+	</dependency>  	
+  	<dependency>
   		<groupId>org.eclipse.mylyn.github</groupId>
   		<artifactId>org.eclipse.egit.github.core</artifactId>
   		<version>2.1.5</version>
+  	</dependency>
+
+  	<dependency>
+  		<groupId>javax.ws.rs</groupId>
+  		<artifactId>javax.ws.rs-api</artifactId>
+  		<version>2.0.1</version>
   	</dependency>
   </dependencies>
 </project>
