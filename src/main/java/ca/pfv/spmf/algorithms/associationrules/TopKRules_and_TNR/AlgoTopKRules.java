@@ -600,13 +600,13 @@ public class AlgoTopKRules {
 			if(StringUtil.containsRoot(rule.toString(), root)) {
 				buffer.append(rule.toString());
 				// write separator
-				buffer.append(" #SUP: ");
+				//buffer.append(" #SUP: ");
 				// write support
-				buffer.append(rule.getAbsoluteSupport());
+				//buffer.append(rule.getAbsoluteSupport());
 				// write separator
-				buffer.append(" #CONF: ");
+				//buffer.append(" #CONF: ");
 				// write confidence
-				buffer.append(rule.getConfidence());
+				//buffer.append(rule.getConfidence());
 				sb.append(buffer.toString());
 				sb.append("\n");
 			}

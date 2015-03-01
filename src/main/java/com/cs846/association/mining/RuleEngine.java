@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.AlgoTopKRules;
 import ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.Database;
@@ -64,7 +65,7 @@ public class RuleEngine {
 		this.transactions = transactions;
 	}
 
-	public void getRules() throws FileNotFoundException, IOException {
+	public Set<String> getRules() throws FileNotFoundException, IOException {
 
 		
 			// Loading the binary context
@@ -86,8 +87,8 @@ public class RuleEngine {
 
 			//algo.printStats();
 			
-			System.out.println(algo.toString());
-		
+			//System.out.println(algo.toString());
+			return ParseOutput.parse(algo.toString());
 		
 		
 }

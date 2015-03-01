@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        Test
 // @namespace   http://github.com/elasticsearch/elasticsearch/pull
-// @include     https://github.com/*
+// @include     https://github.com/*/*/pull/*
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
 // @version     1
 // @grant       GM_xmlhttpRequest
@@ -36,27 +36,65 @@ function showAlert() {
   document.getElementsByClassName("tabnav-tabs")[0].appendChild(t);
   
   
-  GM_xmlhttpRequest({
-  method: "GET",
-  headers: {"Accept": "application/json"},
-  url: "http://localhost:8080/CS846_Web/rest/relatedfile",
-  onload: function(response) {
-    updateData(response);
-  }
-  });
-  //alert(ih);
-}
-
-function updateData(response) {
-  //alert($().jquery);
-  var json_response = response.responseText;
-  var response_object = JSON.parse(json_response);
-  
   var warning_label = document.getElementById("warning_label");
   warning_label.innerHTML = "You might want to review the following files for potential impact";
   warning_label.style = "background-color:#e8f0f8";
   document.getElementById("toc_related_files").setAttribute("class","details-collapse table-of-contents js-details-container open");
   
-  $("#file_list > li").children("a").text(response_object.filename);
+  var clone = document.getElementById("file_list").children[0].cloneNode(true);
+  $("#file_list").empty();
+  
+  
+  var imageUrl = 'http://i57.tinypic.com/aywti9.gif';
+  
+  $("#file_list").css('background-image','url(' + imageUrl + ')');
+  
+  
+  
+  
+  
+  var XChangeFile = new Object();
+  var changesets = new Array();
+  //changesets[0] = "check";
+ 
+  $("#toc > ol > li").children("a").each( function(index) {
+    changesets[index] = $( this ).text();
+  })
+  XChangeFile.changeSets = changesets;
+  //alert(changed_file);
+  //alert(JSON.stringify(XChangeFile));
+  
+  GM_xmlhttpRequest({
+    method: "POST",
+    headers: {"Accept": "application/json"},
+    data : JSON.stringify(XChangeFile),
+    url: "http://localhost:8080/CS846_Web/rest/relatedfile",
+    onload: function(response) {
+      updateData(response,clone);
+    }
+  });
+ 
+}
+
+function updateData(response,clone) {
+  //alert($().jquery);
+  $("#file_list").css("background-image","none");
+  var json_response = response.responseText;
+  var response_object = JSON.parse(json_response);
+  //alert(json_response);
+ 
+  var data = new Array();
+  data = response_object.relatedProductFiles;
+ 
+ 
+  
+  
+  for ( var i = 0, l = data.length; i < l; i++ ) {
+    var localclone = clone.cloneNode(true);
+    document.getElementById("file_list").appendChild(localclone);
+    $("#file_list").children().eq(i).children("a").text(data[i]);
+  }
+ 
+  
  
 }

@@ -23,10 +23,12 @@ public class StringUtil {
 	}
 	
 	public static void main(String[] args) {
-		List<Integer> root = new ArrayList<Integer>();
-		root.add(14);
-		root.add(1);
-		System.out.println(containsRoot("11 1 ==> 16 15",root));
+		formatUrl("https://api.github.com/repos/elasticsearch/elasticsearch/commits/136d36b724dabbe9c84ca9dac6901cef2c712fd2");
+	}
+
+	public static String formatUrl(String url) {
+		return url.substring(22);
+		
 	}
 
 }
