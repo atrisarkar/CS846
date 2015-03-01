@@ -35,7 +35,8 @@ public class GitHubAPI {
 
 	public static void main(String[] args) {
 		List<String> input = new ArrayList<String>();
-		input.add("src/main/java/org/elasticsearch/cluster/action/index/NodeIndexDeletedAction.java");
+		input.add("src/main/java/org/elasticsearch/index/store/Store.java");
+		input.add(" src/main/java/org/elasticsearch/indices/recovery/RecoveryStatus.java");
 		GitHubAPI api = new GitHubAPI();
 		XChangeFile xch = new XChangeFile();
 		xch.setChangeSets(input);

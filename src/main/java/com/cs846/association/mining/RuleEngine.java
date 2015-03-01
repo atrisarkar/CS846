@@ -87,7 +87,7 @@ public class RuleEngine {
 
 			//algo.printStats();
 			
-			//System.out.println(algo.toString());
+			System.out.println(algo.toString());
 			return ParseOutput.parse(algo.toString());
 		
 		
