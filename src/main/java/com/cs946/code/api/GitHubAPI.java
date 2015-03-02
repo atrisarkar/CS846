@@ -124,11 +124,18 @@ public class GitHubAPI {
 			eng.setTransactions(transactionString.toString());
 			Set<String> files = eng.getRules();
 			List<String> relatedFiles = new ArrayList<String>();
+			List<String> relatedTestFiles = new ArrayList<String>();
 			for(String s : files) {
-				relatedFiles.add((String)transMap.getKey(Integer.valueOf(s)));
+				String fileName = (String)transMap.getKey(Integer.valueOf(s));
+				if(fileName.contains("Test.java")) {
+					relatedTestFiles.add(fileName);
+				} else {
+					relatedFiles.add(fileName);
+				}
 				System.out.println(transMap.getKey(Integer.valueOf(s)));
 			}
 			inData.setRelatedProductFiles(relatedFiles);
+			inData.setRelatedTestFiles(relatedTestFiles);
 			
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block

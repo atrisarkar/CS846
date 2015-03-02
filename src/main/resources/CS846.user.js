@@ -85,6 +85,9 @@ function updateData(response,clone) {
  
   var data = new Array();
   data = response_object.relatedProductFiles;
+  
+  var data_test = new Array();
+  data_test = response_object.relatedTestFiles;
  
  
   
@@ -93,6 +96,12 @@ function updateData(response,clone) {
     var localclone = clone.cloneNode(true);
     document.getElementById("file_list").appendChild(localclone);
     $("#file_list").children().eq(i).children("a").text(data[i]);
+  }
+  
+  for ( var i = 0, l = data_test.length; i < l; i++ ) {
+    var localclone = clone.cloneNode(true);
+    document.getElementById("file_list").appendChild(localclone);
+    $("#file_list").children().eq(i).children("a").text(data_test[i]);
   }
  
   
