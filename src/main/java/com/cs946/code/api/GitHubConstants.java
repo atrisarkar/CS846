@@ -10,8 +10,8 @@ public class GitHubConstants {
 	public static final String COMMIT_URL = "https://api.github.com/repos/eatnumber1/google-gson/commit";
 	public static String OAUTH = "secret";
 	public static final String AUTH_URL = "https://api.github.com/?access_token="+OAUTH;
-	public static final String REPOSITORY_PATH = "elasticsearch/elasticsearch/";
-	
+	//public static final String REPOSITORY_PATH = "elasticsearch/elasticsearch/";
+	public static final String REPOSITORY_PATH = "Mango/slideout/";
 	
 	
 

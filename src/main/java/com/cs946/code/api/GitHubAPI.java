@@ -35,11 +35,13 @@ public class GitHubAPI {
 
 	public static void main(String[] args) {
 		List<String> input = new ArrayList<String>();
-		input.add("src/main/java/org/elasticsearch/index/store/Store.java");
-		input.add(" src/main/java/org/elasticsearch/indices/recovery/RecoveryStatus.java");
+		//input.add("src/main/java/org/elasticsearch/index/store/Store.java");
+		//input.add(" src/main/java/org/elasticsearch/indices/recovery/RecoveryStatus.java");
+		input.add("index.js");
 		GitHubAPI api = new GitHubAPI();
 		XChangeFile xch = new XChangeFile();
 		xch.setChangeSets(input);
+		xch.setRepository(GitHubConstants.REPOSITORY_PATH);
 		api.getRelated(xch);
 	}
 	/**
@@ -54,9 +56,9 @@ public class GitHubAPI {
 			//client.setOAuth2Token(GitHubConstants.OAUTH);
 			StringBuilder transactionString = new StringBuilder();
 			CommitService service = new CommitService(client);
-			
-			IRepositoryIdProvider provider = RepositoryId.createFromId(GitHubConstants.REPOSITORY_PATH);
-			
+			String repository = inData.getRepository();
+			IRepositoryIdProvider provider = RepositoryId.createFromId(repository);
+			System.out.println("Repository : "+repository);
 			
 			
 			int limit = Math.min(input.size(), 10);

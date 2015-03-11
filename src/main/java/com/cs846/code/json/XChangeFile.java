@@ -15,6 +15,16 @@ public class XChangeFile {
 	
 	List<String> relatedProductFiles;
 	
+	String repository;
+	
+	public String getRepository() {
+		return repository;
+	}
+
+	public void setRepository(String repository) {
+		this.repository = repository;
+	}
+
 	List<String> relatedTestFiles;
 	
 	public List<String> getChangeSets() {

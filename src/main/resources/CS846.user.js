@@ -28,6 +28,7 @@ function showAlert() {
   related_bucket.appendChild(related_bucket_content);
   var parent_of_bucket = document.getElementsByClassName("view-pull-request clearfix js-issues-results")[0].appendChild(related_bucket);
   
+  var repository = $(".js-current-repository").attr('href');
   
   
   t.children[0].setAttribute("data-container-id","related_bucket");
@@ -61,6 +62,7 @@ function showAlert() {
     changesets[index] = $( this ).text();
   })
   XChangeFile.changeSets = changesets;
+  XChangeFile.repository = repository;
   //alert(changed_file);
   //alert(JSON.stringify(XChangeFile));
   
