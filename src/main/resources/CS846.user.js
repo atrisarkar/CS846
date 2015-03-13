@@ -100,10 +100,12 @@ function updateData(response,clone) {
     $("#file_list").children().eq(i).children("a").text(data[i]);
   }
   
-  for ( var i = 0, l = data_test.length; i < l; i++ ) {
+  
+  for ( var j = 0, k = data.length, m = data_test.length; j < m; j++, k++) {
     var localclone = clone.cloneNode(true);
     document.getElementById("file_list").appendChild(localclone);
-    $("#file_list").children().eq(i).css( "background-color", "PaleTurquoise").children("a").text(data_test[i]);
+    $("#file_list").children().eq(k).css( "background-color", "PaleTurquoise").children("a").text(data_test[j]);
+    
   }
  
   
