@@ -129,7 +129,7 @@ public class GitHubAPI {
 			List<String> relatedTestFiles = new ArrayList<String>();
 			for(String s : files) {
 				String fileName = (String)transMap.getKey(Integer.valueOf(s));
-				if(fileName.contains("Test.java")) {
+				if(fileName.contains("Tests")) {
 					relatedTestFiles.add(fileName);
 				} else {
 					relatedFiles.add(fileName);
