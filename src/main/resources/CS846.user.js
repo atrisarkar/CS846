@@ -103,7 +103,7 @@ function updateData(response,clone) {
   for ( var i = 0, l = data_test.length; i < l; i++ ) {
     var localclone = clone.cloneNode(true);
     document.getElementById("file_list").appendChild(localclone);
-    $("#file_list").children().eq(i).children("a").text(data_test[i]);
+    $("#file_list").children().eq(i).css( "background-color", "PaleTurquoise").children("a").text(data_test[i]);
   }
  
   
