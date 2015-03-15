@@ -93,18 +93,37 @@ function updateData(response,clone) {
  
  
   
+  var i = 0;
   
-  for ( var i = 0, l = data.length; i < l; i++ ) {
+  for ( var l = data.length; i < l; i++ ) {
     var localclone = clone.cloneNode(true);
     document.getElementById("file_list").appendChild(localclone);
     $("#file_list").children().eq(i).children("a").text(data[i]);
+    
+    var div1 = document.createElement("div");
+    var txt3 = document.createElement("p");  
+    txt3.innerHTML = data[i] + data[i] + data[i] + data[i] + data[i]; 
+    div1.appendChild(txt3);
+    div1.style.border = "5px double #C0C0C0";
+    document.getElementById("file_list").appendChild(div1);
+    i++;
+    
   }
   
   
-  for ( var j = 0, k = data.length, m = data_test.length; j < m; j++, k++) {
+  
+  for ( var j = 0, k = i, m = data_test.length; j < m; j++, k++) {
     var localclone = clone.cloneNode(true);
     document.getElementById("file_list").appendChild(localclone);
     $("#file_list").children().eq(k).css( "background-color", "PaleTurquoise").children("a").text(data_test[j]);
+    
+    var div1 = document.createElement("div");
+    var txt3 = document.createElement("p");  
+    txt3.innerHTML = data_test[j] + data_test[j] + data_test[j] + data_test[j]; 
+    div1.appendChild(txt3);
+    div1.style.border = "5px double #C0C0C0";
+    document.getElementById("file_list").appendChild(div1);
+    k++;
     
   }
  
