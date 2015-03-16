@@ -1,0 +1,13 @@
+% !TEX encoding = UTF-8 Unicode
+% !TEX root = project.tex
+
+\section{Motivation}
+\label{sec:motivation}
+
+Evolving software systems shows an interesting trend. With time we see that a software system becomes increasingly difficult to maintain and making even a small change is much more complex in such a system compared to newly developed software. However, evolved software also contains much more historical data and information in their repositories compared to new software. Thus, over time we generate this huge amount of data on which we can run our analytics to gain deeper insight into the system. In this project we concern ourselves with building a tool which will show the developer commonly changed related files for the current file which might help him in the following scenarios:
+
+1. A developer has a defect to fix which involves a small UI change as well as changing some classes in the back end which are impacted by the UI change. However, he does not have a clear idea which files he might have to change in the backend as a result of the UI change. Under such a scenario he might look into the historical data from previous commits on which backend files have been checked in together with this UI file. Looking at the list will give him idea of the probable files he might have to change.
+
+2. Browsing through test cases which needs to be updated for a certain change is often an arduous task. The developer's life becomes much easier if he gets to know the test case files which have been updated whenever a change to a certain source file is made.
+
+3. Before checking in code, developers might want to review any possible concomitant changes needed in other artifacts such as config files, build files, and upgrade scripts as it is often difficult to keep track of all the housekeeping activities one needs to perform for a certain change in the code.
