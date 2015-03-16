@@ -1,29 +1,23 @@
 package com.cs946.code.api;
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
-import org.eclipse.egit.github.core.CommitFile;
 import org.eclipse.egit.github.core.IRepositoryIdProvider;
 import org.eclipse.egit.github.core.RepositoryCommit;
 import org.eclipse.egit.github.core.RepositoryId;
 import org.eclipse.egit.github.core.client.GitHubClient;
-import org.eclipse.egit.github.core.client.GitHubRequest;
-import org.eclipse.egit.github.core.client.GitHubResponse;
 import org.eclipse.egit.github.core.service.CommitService;
-import org.eclipse.egit.github.core.service.GitHubService;
 
 import com.cs846.association.mining.RuleEngine;
+import com.cs846.code.json.FileEntry;
 import com.cs846.code.json.XChangeFile;
 import com.cs846.util.StringUtil;
 import com.google.gson.Gson;
@@ -37,7 +31,8 @@ public class GitHubAPI {
 		List<String> input = new ArrayList<String>();
 		//input.add("src/main/java/org/elasticsearch/index/store/Store.java");
 		//input.add(" src/main/java/org/elasticsearch/indices/recovery/RecoveryStatus.java");
-		input.add("index.js");
+		input.add("src/main/java/org/elasticsearch/common/rounding/TimeZoneRounding.java");
+		input.add("src/test/java/org/elasticsearch/common/rounding/TimeZoneRoundingTests.java");
 		GitHubAPI api = new GitHubAPI();
 		XChangeFile xch = new XChangeFile();
 		xch.setChangeSets(input);
@@ -69,6 +64,7 @@ public class GitHubAPI {
 			
 			Gson gson = new Gson();
 			BidiMap transMap = new DualHashBidiMap();
+			Map<String,String> messageMap = new HashMap<String,String>();
 			Integer counter = 1;
 			for(RepositoryCommit c : commitList){
 				/*
@@ -93,6 +89,7 @@ public class GitHubAPI {
 			    		gson.fromJson(tJSON, com.cs846.code.json.RepositoryCommit.class);
 			    
 			    List<com.cs846.code.json.Files> files = rc.getFiles();
+			    String message = rc.getCommit().getMessage() + "[" +rc.getCommit().getUrl() +"]";
 			    Integer fileInt;
 			    if(files.size()<=10){
 			    	for(com.cs846.code.json.Files f : files){
@@ -105,7 +102,7 @@ public class GitHubAPI {
 			        		counter++;
 			        		
 			        	}
-			        	
+			        	messageMap.put(fileInt.toString(), StringUtil.encodeHTML(message));
 			        	transactionString.append(fileInt + " ");
 			        }
 			        transactionString.append("\n");
@@ -124,17 +121,26 @@ public class GitHubAPI {
 			}
 			eng.setRootFile((inputFileList));
 			eng.setTransactions(transactionString.toString());
-			Set<String> files = eng.getRules();
-			List<String> relatedFiles = new ArrayList<String>();
-			List<String> relatedTestFiles = new ArrayList<String>();
-			for(String s : files) {
-				String fileName = (String)transMap.getKey(Integer.valueOf(s));
+			Set<FileEntry> files = eng.getRules();
+			List<FileEntry> relatedFiles = new ArrayList<FileEntry>();
+			List<FileEntry> relatedTestFiles = new ArrayList<FileEntry>();
+			for(FileEntry f : files) {
+				String intFileName = f.getFile();
+				String fileName = (String)transMap.getKey(Integer.valueOf(f.getFile()));
 				if(fileName.contains("Tests")) {
-					relatedTestFiles.add(fileName);
+					if(!input.contains(fileName)) {
+						f.setMessage(messageMap.get(f.getFile()));
+						f.setFile(fileName);
+						relatedTestFiles.add(f);
+					}
 				} else {
-					relatedFiles.add(fileName);
+					if(!input.contains(fileName)) {
+						f.setMessage(messageMap.get(f.getFile()));
+						f.setFile(fileName);
+						relatedFiles.add(f);
+					}
 				}
-				System.out.println(transMap.getKey(Integer.valueOf(s)));
+				System.out.println(transMap.getKey(Integer.valueOf(intFileName)));
 			}
 			inData.setRelatedProductFiles(relatedFiles);
 			inData.setRelatedTestFiles(relatedTestFiles);

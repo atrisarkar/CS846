@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.cs846.code.json.FileEntry;
+
 import ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.AlgoTopKRules;
 import ca.pfv.spmf.algorithms.associationrules.TopKRules_and_TNR.Database;
 import ca.pfv.spmf.algorithms.associationrules.agrawal94_association_rules.AlgoAgrawalFaster94;
@@ -65,7 +67,7 @@ public class RuleEngine {
 		this.transactions = transactions;
 	}
 
-	public Set<String> getRules() throws FileNotFoundException, IOException {
+	public Set<FileEntry> getRules() throws FileNotFoundException, IOException {
 
 		
 			// Loading the binary context
@@ -88,8 +90,8 @@ public class RuleEngine {
 			//algo.printStats();
 			
 			System.out.println(algo.toString());
-			return ParseOutput.parse(algo.toString());
-		
+			Set<FileEntry> fe = ParseOutput.parse(algo.toString());
+			return fe;
 		
 }
 

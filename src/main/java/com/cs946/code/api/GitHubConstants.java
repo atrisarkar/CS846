@@ -11,7 +11,7 @@ public class GitHubConstants {
 	public static String OAUTH = "secret";
 	public static final String AUTH_URL = "https://api.github.com/?access_token="+OAUTH;
 	//public static final String REPOSITORY_PATH = "elasticsearch/elasticsearch/";
-	public static final String REPOSITORY_PATH = "Mango/slideout/";
+	public static final String REPOSITORY_PATH = "elastic/elasticsearch";
 	
 	
 

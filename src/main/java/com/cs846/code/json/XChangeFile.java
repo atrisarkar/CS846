@@ -13,7 +13,7 @@ public class XChangeFile {
 	
 	List<String> changeSets;
 	
-	List<String> relatedProductFiles;
+	List<FileEntry> relatedProductFiles;
 	
 	String repository;
 	
@@ -25,7 +25,7 @@ public class XChangeFile {
 		this.repository = repository;
 	}
 
-	List<String> relatedTestFiles;
+	List<FileEntry> relatedTestFiles;
 	
 	public List<String> getChangeSets() {
 		return changeSets;
@@ -35,19 +35,19 @@ public class XChangeFile {
 		this.changeSets = changeSets;
 	}
 
-	public List<String> getRelatedProductFiles() {
+	public List<FileEntry> getRelatedProductFiles() {
 		return relatedProductFiles;
 	}
 
-	public void setRelatedProductFiles(List<String> relatedProductFiles) {
+	public void setRelatedProductFiles(List<FileEntry> relatedProductFiles) {
 		this.relatedProductFiles = relatedProductFiles;
 	}
 
-	public List<String> getRelatedTestFiles() {
+	public List<FileEntry> getRelatedTestFiles() {
 		return relatedTestFiles;
 	}
 
-	public void setRelatedTestFiles(List<String> relatedTestFiles) {
+	public void setRelatedTestFiles(List<FileEntry> relatedTestFiles) {
 		this.relatedTestFiles = relatedTestFiles;
 	}
 

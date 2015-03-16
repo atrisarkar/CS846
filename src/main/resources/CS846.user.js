@@ -46,6 +46,9 @@ function showAlert() {
   $("#file_list").empty();
   
   
+  (document.getElementsByClassName('counter')[3]).innerHTML = "";
+  
+  
   var imageUrl = 'http://i57.tinypic.com/aywti9.gif';
   
   $("#file_list").css('background-image','url(' + imageUrl + ')');
@@ -95,38 +98,102 @@ function updateData(response,clone) {
   
   var i = 0;
   
+  //alert("Starting product");
+  
   for ( var l = data.length; i < l; i++ ) {
+    //alert(i);
+    //alert(data[i].file);
+    var f = "f";
     var localclone = clone.cloneNode(true);
+    //var origtext = localclone.childNodes[0];
+    //alert(origtext.innerHTML);
     document.getElementById("file_list").appendChild(localclone);
-    $("#file_list").children().eq(i).children("a").text(data[i]);
+    $("#file_list").children("li").eq(i).children("a").text(data[i].file);
+    
+    $("#file_list").children("li").eq(i).children("a").click( function() { 
+                                                                      var details_div = $(this).parent().next();
+                                                                      if(details_div.css('display') == 'none'){ 
+                                                                         details_div.css("display", "block");
+                                                                      } else {
+                                                                         details_div.css("display", "none");
+                                                                      }
+                                                                      
+                                                                     
+                                                                     } );
     
     var div1 = document.createElement("div");
     var txt3 = document.createElement("p");  
-    txt3.innerHTML = data[i] + data[i] + data[i] + data[i] + data[i]; 
+    txt3.innerHTML = data[i].message; 
     div1.appendChild(txt3);
-    div1.style.border = "5px double #C0C0C0";
+    //div1.style.border = "5px double #C0C0C0";
+    div1.style.display = "none";
+    div1.id = f.concat(i);
     document.getElementById("file_list").appendChild(div1);
-    i++;
+    
+    $("#file_list").children("li").eq(i).children("span").eq(0).html(data[i].confidence);
+    var msg = data[i].message
+    $("#file_list").children("li").eq(i).children("a").attr('title', msg);
     
   }
   
-  
-  
+ 
+  /*
   for ( var j = 0, k = i, m = data_test.length; j < m; j++, k++) {
     var localclone = clone.cloneNode(true);
     document.getElementById("file_list").appendChild(localclone);
     $("#file_list").children().eq(k).css( "background-color", "PaleTurquoise").children("a").text(data_test[j]);
+    
     
     var div1 = document.createElement("div");
     var txt3 = document.createElement("p");  
     txt3.innerHTML = data_test[j] + data_test[j] + data_test[j] + data_test[j]; 
     div1.appendChild(txt3);
     div1.style.border = "5px double #C0C0C0";
+    div1.style.display = "none";
     document.getElementById("file_list").appendChild(div1);
+    
     k++;
     
   }
- 
+  */
+  //alert("Starting test");
+  //alert(data_test.length+data.length);
+  for ( var l = data_test.length+data.length; i < l; i++ ) {
+    
+    var f = "f";
+    var localclone = clone.cloneNode(true);
+    document.getElementById("file_list").appendChild(localclone);
+    
+    $("#file_list").children("li").eq(i).css( "background-color", "PaleTurquoise");
+    
+    $("#file_list").children("li").eq(i).children("a").text(data_test[l-i-1].file);
+    $("#file_list").children("li").eq(i).children("a").addClass('message');
+    
+    
+    $("#file_list").children("li").eq(i).children("a").click( function() { 
+                                                                      var details_div = $(this).parent().next();
+                                                                      if(details_div.css('display') == 'none'){ 
+                                                                         details_div.css("display", "block");
+                                                                      } else {
+                                                                         details_div.css("display", "none");
+                                                                      }
+                                                                      
+                                                                     
+                                                                     } );
+    
+    var div1 = document.createElement("div");
+    var txt3 = document.createElement("p");  
+    txt3.innerHTML = data_test[l-i-1].message; 
+    div1.appendChild(txt3);
+    //div1.style.border = "5px double #C0C0C0";
+    div1.style.display = "none";
+    div1.id = f.concat(i);
+    document.getElementById("file_list").appendChild(div1);
+    $("#file_list").children("li").eq(i).children("span").eq(0).html(data_test[l-i-1].confidence);
+    var msg = data_test[l-i-1].message
+    $("#file_list").children("li").eq(i).children("a").attr('title', msg);
+    
+  }
   
  
 }
