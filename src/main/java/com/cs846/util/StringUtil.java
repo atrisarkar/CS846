@@ -50,5 +50,12 @@ public class StringUtil {
 	    }
 	    return out.toString();
 	}
+	
+	
+	public static String stripHash(String url) {
+		String t = url.split("commit")[1];
+		return (t.substring(1,t.indexOf("/", 2)));
+
+	}
 
 }

@@ -11,11 +11,15 @@ import java.util.List;
  */
 public class XChangeFile {
 	
+	String mode;
+	
 	List<String> changeSets;
 	
 	List<FileEntry> relatedProductFiles;
 	
 	String repository;
+	
+	String commitHash;
 	
 	public String getRepository() {
 		return repository;
@@ -49,6 +53,22 @@ public class XChangeFile {
 
 	public void setRelatedTestFiles(List<FileEntry> relatedTestFiles) {
 		this.relatedTestFiles = relatedTestFiles;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+
+	public String getCommitHash() {
+		return commitHash;
+	}
+
+	public void setCommitHash(String commitHash) {
+		this.commitHash = commitHash;
 	}
 
 

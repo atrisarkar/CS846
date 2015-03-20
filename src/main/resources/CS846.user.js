@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        Test
+// @name        RelatedFile
 // @namespace   http://github.com/elasticsearch/elasticsearch/pull
 // @include     https://github.com/*/*/pull/*
 // @require     http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js
@@ -32,10 +32,21 @@ function showAlert() {
   
   
   t.children[0].setAttribute("data-container-id","related_bucket");
+  /*
   var ih = t.children[0].innerHTML.replace("Files changed","Related Files");
   t.children[0].innerHTML = ih;
+  */
+  var ih = t.innerHTML.replace("Files changed","Related Files");
+  t.innerHTML = ih;
   document.getElementsByClassName("tabnav-tabs")[0].appendChild(t);
   
+  $(".tabnav-tabs").children().eq(3).attr("data-container-id","related_bucket");  
+  
+  //$(".tabnav-tabs").children().eq(3).children().eq(0).replaceWith("<span data-container-id=\"related_bucket\" class=\"octicon octicon-diff\"></span>Files changed<span id=\"files_tab_counter\" class=\"counter\"></span>");
+  
+  //(".tabnav-tabs").children().eq(3).html("<span data-container-id=\"related_bucket\" class=\"octicon octicon-diff\"></span>Files changed<span id=\"files_tab_counter\" class=\"counter\"></span>");
+  //var temp = $(".tabnav-tabs").children().eq(3).children("span").eq(1).next().html();
+  //alert(temp);
   
   var warning_label = document.getElementById("warning_label");
   warning_label.innerHTML = "You might want to review the following files for potential impact";
@@ -66,6 +77,12 @@ function showAlert() {
   })
   XChangeFile.changeSets = changesets;
   XChangeFile.repository = repository;
+  XChangeFile.mode = "evaluation";
+  
+  var commit_hash = $(".commit-group.table-list.table-list-bordered").children("li").eq(0).attr("data-url");
+  //alert(commit_hash);
+  XChangeFile.commitHash = commit_hash;
+  
   //alert(changed_file);
   //alert(JSON.stringify(XChangeFile));
   

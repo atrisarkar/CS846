@@ -31,12 +31,16 @@ public class GitHubAPI {
 		List<String> input = new ArrayList<String>();
 		//input.add("src/main/java/org/elasticsearch/index/store/Store.java");
 		//input.add(" src/main/java/org/elasticsearch/indices/recovery/RecoveryStatus.java");
-		input.add("src/main/java/org/elasticsearch/common/rounding/TimeZoneRounding.java");
-		input.add("src/test/java/org/elasticsearch/common/rounding/TimeZoneRoundingTests.java");
+		input.add(".jshintrc");
+		input.add("src/js/player.js");
+		input.add(" test/unit/plugins.js");
+		
 		GitHubAPI api = new GitHubAPI();
 		XChangeFile xch = new XChangeFile();
 		xch.setChangeSets(input);
 		xch.setRepository(GitHubConstants.REPOSITORY_PATH);
+		xch.setMode("evaluation");
+		xch.setCommitHash("/videojs/video.js/commit/a5a8d449189efd7c63f6a61370be32d27e18cba6/show_partial?partial=commits%2Fcommits_list_item");
 		api.getRelated(xch);
 	}
 	/**
@@ -47,7 +51,7 @@ public class GitHubAPI {
 		try {
 			List<String> input = inData.getChangeSets();
 			GitHubClient client = new GitHubClient();
-			client.setCredentials("atrisarkar", "cs846access");
+			client.setCredentials("briancanada", "waterloo1");
 			//client.setOAuth2Token(GitHubConstants.OAUTH);
 			StringBuilder transactionString = new StringBuilder();
 			CommitService service = new CommitService(client);
@@ -58,26 +62,42 @@ public class GitHubAPI {
 			
 			int limit = Math.min(input.size(), 10);
 			List<RepositoryCommit> commitList = new ArrayList<RepositoryCommit>();
-			for(String e : input.subList(0, limit)){
-				commitList.addAll(service.getCommits(provider,null,e));
+			
+			String mode = inData.getMode();
+			
+			if("evaluation".equals(mode)) {
+				System.out.println("Running mode : evaluation");
+				String commitHash = StringUtil.stripHash(inData.getCommitHash());
+				CommitService service1 = new CommitService(client);
+				RepositoryCommit r = service1.getCommit(provider, commitHash);
+				Gson gson = new Gson();
+				String tJSON = gson.toJson(r);
+				com.cs846.code.json.RepositoryCommit rc = 
+			    		gson.fromJson(tJSON, com.cs846.code.json.RepositoryCommit.class);
+			    
+			    List<com.cs846.code.json.Files> files = rc.getFiles();
+			    List<String> filesForFirstCommit = new ArrayList<String>();
+			    for(com.cs846.code.json.Files f : files) {
+			    	filesForFirstCommit.add(f.getFilename());
+			    }
+			    input.clear();
+			    input.addAll(filesForFirstCommit);
+			    limit = Math.min(input.size(), 10);
+			} else {
+				System.out.println("Running mode : demo");
 			}
+			
+				
+				for(String e : input.subList(0, limit)){
+					commitList.addAll(service.getCommits(provider,null,e));
+				}
+			
 			
 			Gson gson = new Gson();
 			BidiMap transMap = new DualHashBidiMap();
 			Map<String,String> messageMap = new HashMap<String,String>();
 			Integer counter = 1;
 			for(RepositoryCommit c : commitList){
-				/*
-				//URL oracle = new URL(c.getUrl());
-			    //URLConnection yc = oracle.openConnection();
-			    //BufferedReader in = new BufferedReader(new InputStreamReader(
-			    //                            yc.getInputStream()));
-				
-				
-				GitHubRequest reqForFile = new GitHubRequest();
-				reqForFile.setUri(StringUtil.formatUrl(c.getUrl()));
-				GitHubResponse response = client.get(reqForFile);
-				*/
 				
 				// We need to do this as getCommits(<>) does not return the list of files :(
 				CommitService service1 = new CommitService(client);
