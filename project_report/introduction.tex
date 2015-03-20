@@ -3,28 +3,10 @@
 
 \section{Introduction}
 \label{sec:intro}
-The \textit{proceedings} are the records of a conference.
-ACM seeks to give these conference by-products a uniform,
-high-quality appearance.  To do this, ACM has some rigid
-requirements for the format of the proceedings documents: there
-is a specified format (balanced  double columns), a specified
-set of fonts (Arial or Helvetica and Times Roman) in
-certain specified sizes (for instance, 9 point for body copy),
-a specified live area (18 $\times$ 23.5 cm [7" $\times$ 9.25"]) centered on
-the page, specified size of margins (1.9 cm [0.75"]) top, (2.54 cm [1"]) bottom
-and (1.9 cm [.75"]) left and right; specified column width
-(8.45 cm [3.33"]) and gutter size (.83 cm [.33"]).
 
-The good news is, with only a handful of manual
-settings\footnote{Two of these, the {\texttt{\char'134 numberofauthors}}
-and {\texttt{\char'134 alignauthor}} commands, you have
-already used; another, {\texttt{\char'134 balancecolumns}}, will
-be used in your very last run of \LaTeX\ to ensure
-balanced column heights on the last page.}, the \LaTeX\ document
-class file handles all of this for you.
+One of the first steps in a software maintenance activity for any developer is program comprehension or the ability to understand the system from various perspectives. These perspectives can be about understanding the dynamic behavior of the classes in an object oriented system, mapping from features and requirements to the code or understanding the impact of a certain code change throughout the system. Apart from increasing productivity, better understanding of the code aids the developer in writing better code which in turn aids in having a better quality throughout the software evolution process.
 
-The remainder of this document is concerned with showing, in
-the context of an ``actual'' document, the \LaTeX\ commands
-specifically available for denoting the structure of a
-proceedings paper, rather than with giving rigorous descriptions
-or explanations of such commands.
+One of the questions developers often have in this regard is 'What is the implication of my change in the software'. Apart from changing or adding new code to fix a defect, they need to be concerned about the impact of their changes. They also need to look into other aspects like having to modify test cases so that the test cases are in sync with the new behavior or having to update some property file which might be related to the changes made in the code.
+
+In this project we would look into some of these problems by mining change set data in source control systems and bug repositories. Source control systems like CVS, Jazz, Git contain historical data about the set of files which have been committed together in the repository. We use this information to inform the developer of potential impact of his changes to a certain file. We believe that using this method, the developer will not only be able to understand dependencies between different modules of the system better, but also be aware of the files he might have to look closely into for
+collateral effect of his changes.
