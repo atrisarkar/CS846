@@ -9,14 +9,14 @@ Over the last decade we have observed a significant shift in the way software is
 Developers in a typical open source system can fall under two broad non-exclusive categories. In the first category we have the set of developers who are assumed to have a detailed and in-depth knowledge on the design and implementation of the project. They are the developers who have spent significant time with the project, have a higher rate of contribution, and have risen the ranks over time to be in a position where they can act as gatekeepers to any change committed in the project. In the second category, we have the rest of the contributors and developers who are not yet in the core group, however, they contribute code to the project's repository by adding new features or by resolving any reported defects. One of the roles which the first category or the core group of developers exercise is the role of a reviewer. This role expects them to exercise the following activities:\\
 \begin{enumerate}
 \item Review any changes made to the code base by contributing developers to check if the contributions meet the accepted project standards. This role is similar to that of a reviewer in a code-review process.
-\item Analyze the impact of the contributions made by developers in the project in general. This includes but is not limited to checking whether the contributing changes are accompanied by required test-cases, whether the contribution runs the risk of breaking existing functionality, or even analyzing what needs to be modified to accomplish the intended change. Tasks in this role are usually categorised under Change Impact Analysis (CIA) ~\cite{STVSTVR1475}.
+\item Analyze the impact of the contributions made by developers in the project in general. This includes but is not limited to checking whether the contributing changes are accompanied by required test-cases, whether the contribution runs the risk of breaking existing functionality, or even analyzing what needs to be modified to accomplish the intended change. Tasks in this role are usually categorised under Change Impact Analysis (CIA)~\cite{STVSTVR1475}.
 \end{enumerate}
 
-In this project, we concern ourselves with this second activity. Based on GitHub data, we have seen that the number of commits in open source projects during peak development periods can reach up to a thousand per day, whereas the number of core developers in a project are usually under one hundred ~\cite{YoshikawaIS14}. Under such a scenario, our objective is to assist the reviewer in analyzing the impact of a certain change and help him in deciding whether to accept that change or not.\\
+In this project, we concern ourselves with this second activity. Based on GitHub data, we have seen that the number of commits in open source projects during peak development periods can reach up to a thousand per day, whereas the number of core developers in a project are usually under one hundred~\cite{YoshikawaIS14}. Under such a scenario, our objective is to assist the reviewer in analyzing the impact of a certain change and help him in deciding whether to accept that change or not.\\
 
 \section{Analyzing Change Impact}
 
-Changes made to a software system often has the potential of causing collateral side effect or a ripple effect. This ripple effect is measured in terms of the likelihood that a change to a particular set of files may cause problems in the rest of the software ~\cite{STVSTVR1475}. The first step in Change Impact Analysis (CIA) is to look into the list of files that are changed as a part of the change set. Various CIA techniques are used to estimate a list of files that are probably affected by that change. This list of affected files are called Estimated Impact Set (EIS). There are several techniques proposed to generate this EIS and Li et.al provides an exhaustive survey of such techniques ~\cite{STVSTVR1475}.
+Changes made to a software system often has the potential of causing collateral side effect or a ripple effect. This ripple effect is measured in terms of the likelihood that a change to a particular set of files may cause problems in the rest of the software~\cite{STVSTVR1475}. The first step in Change Impact Analysis (CIA) is to look into the list of files that are changed as a part of the change set. Various CIA techniques are used to estimate a list of files that are probably affected by that change. This list of affected files are called Estimated Impact Set (EIS). There are several techniques proposed to generate this EIS and Li et.al provides an exhaustive survey of such techniques~\cite{STVSTVR1475}.
 
 One such technique is based on the hypothesis that impact of a file on another can be measured by looking at how frequently the two files are changed together. The following real world example explains the idea further.
 
@@ -28,7 +28,7 @@ Our tool generates the list of impacted files (EIS) by mining the historical com
 
 Association rule mining is the process of discovering associations within items in a set of transactions. A classic application of association rule mining is in supermarkets. Stores look at transaction data of customers and apply association rule mining to generate rules of the kind \{bread\}$\rightarrow$\{milk\} which means that if a customer buys bread, he is very likely to buy milk too.
 
-In our context we can relate items to files and transactions to the change sets. Thus, the objective of association rule mining is formally stated as follows ~\cite{fournier2012mining} :\\
+In our context we can relate items to files and transactions to the change sets. Thus, the objective of association rule mining is formally stated as follows~\cite{fournier2012mining} :\\
 Let \textbf{I}=$\{a_{1},a_{2},..a_{n}\}$ be a finite set of files in the system. Querying information from the repository data, we can get a set of check-ins \textbf{T}=$\{t_{1},t_{2}..t_{m}\}$ where each check-in $t_{j}\subseteq\textbf{I}$ $(1 \le j \le m)$ represents a single commit in the repository. An itemset is a set of files \textbf{X} $\subseteq$ \textbf{I}. The support of an itemset \textbf{X} is denoted as \textit{sup(\textbf{X})} and is defined as the number of check-ins that contain files in \textbf{X}. An association rule \textbf{X}$\rightarrow$\textbf{Y} is a relationship between two itemsets \textbf{X}, \textbf{Y} such that \textbf{X}, \textbf{Y} $\subseteq$ \textbf{I} and \textbf{X} $\cap$ \textbf{Y}= $\emptyset$. The support of a rule \textbf{X} $\rightarrow$ \textbf{Y} is defined as: 
 
 \begin{equation}
@@ -41,10 +41,10 @@ The confidence of a rule \textbf{X} $\rightarrow$ \textbf{Y} is defined as:
 conf(\textbf{X} \rightarrow \textbf{Y}) = \textit{sup}(\textbf{X}\cup\textbf{Y}) / \textit{sup}(\textbf{X}). 
 \end{equation}
 
-Our objective of mining association rules ~\cite{Agrawal} is to find all association rules in a repository having a support no less than a defined threshold \textit{minsup} and a confidence no less
+Our objective of mining association rules~\cite{Agrawal} is to find all association rules in a repository having a support no less than a defined threshold \textit{minsup} and a confidence no less
 than a defined threshold \textit{minconf}. These generated association rules measures the impact of a file on another.
 
-Table~\ref{table:checkins_snapshot} shows a snapshot of check-ins in a repository (Table~\ref{table:checkins_snapshot}.a) and the association rules found for \textit{minsup} = 0.5 and \textit{minconf} = 0.5 (Table~\ref{table:checkins_snapshot}.b). Mining associations is done in two steps ~\cite{Agrawal}. Step 1 is to discover all frequent itemsets in the database (itemsets appearing in at least \textit{minsup} $\times$ |T| transactions). Step 2 is to generate association rules by using the frequent itemsets found in step 1. For each frequent itemset \textbf{X}, pairs of frequent itemsets \textbf{P} and \textbf{Q = X - P} are selected to form rules of the form P$\rightarrow$Q. For each such rule \textbf{P$\rightarrow$Q}, if \textit{sup(P$\rightarrow$Q) $\ge$ minsup} and \textit{conf(P$\rightarrow$Q) $\ge$ minconf}, the rule is selected. In our case, we impose an additional constraint that \textbf{P} should be the set of files in the change set proposed by the contributing developer.
+Table~\ref{table:checkins_snapshot} shows a snapshot of check-ins in a repository (Table~\ref{table:checkins_snapshot}.a) and the association rules found for \textit{minsup} = 0.5 and \textit{minconf} = 0.5 (Table~\ref{table:checkins_snapshot}.b). Mining associations is done in two steps~\cite{Agrawal}. Step 1 is to discover all frequent itemsets in the database (itemsets appearing in at least \textit{minsup} $\times$ |T| transactions). Step 2 is to generate association rules by using the frequent itemsets found in step 1. For each frequent itemset \textbf{X}, pairs of frequent itemsets \textbf{P} and \textbf{Q = X - P} are selected to form rules of the form P$\rightarrow$Q. For each such rule \textbf{P$\rightarrow$Q}, if \textit{sup(P$\rightarrow$Q) $\ge$ minsup} and \textit{conf(P$\rightarrow$Q) $\ge$ minconf}, the rule is selected. In our case, we impose an additional constraint that \textbf{P} should be the set of files in the change set proposed by the contributing developer.
 
 \begin{table}[htbp]
   \centering
@@ -88,7 +88,7 @@ Table~\ref{table:checkins_snapshot} shows a snapshot of check-ins in a repositor
 \end{table}
 
 
-Top-K association rule mining ~\cite{fournier2012mining} is an efficient extension on the traditional A-priori algorithm by Agarwal and Srikanth ~\cite{Agrawal} which mines the \textit{k} strongest association rules found in the itemsets.
+Top-K association rule mining~\cite{fournier2012mining} is an efficient extension on the traditional A-priori algorithm by Agarwal and Srikanth~\cite{Agrawal} which mines the \textit{k} strongest association rules found in the itemsets.
 
 
 \subsection{Pull Requests}
@@ -96,7 +96,7 @@ Top-K association rule mining ~\cite{fournier2012mining} is an efficient extensi
 
 In this project we have built our tool based on the GitHub data and thus it is important to introduce the terminologies involved. Projects in the GitHub system work similar to any other open source project where new, inexperienced, or external developers need to get their changes reviewed by the project owners. In GitHub, this happens through pull requests.\\
 
-\textit{"Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary."} ~\cite{GitHub} \\
+\textit{"Pull requests let you tell others about changes you've pushed to a repository on GitHub. Once a pull request is sent, interested parties can review the set of changes, discuss potential modifications, and even push follow-up commits if necessary."}~\cite{GitHub} \\
 
 Thus, pull requests contain the set of files changed by the developer. The reviewer reviews the pull request and he has the option to either \textit{approve} or \textit{reject} it. Our RICE tool integrates with the Pull Request UI of GitHub to display an additional list of impacted files along with their confidence value to make this decision process easier for the reviewers.   
 
